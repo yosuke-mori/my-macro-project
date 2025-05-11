@@ -23,6 +23,7 @@ for lam in lambdas:
     cycles[lam] = cycle
     trends[lam] = trend
 
+#元データとトレンド成分の比較
 plt.figure(figsize=(12,6))
 plt.plot(log_gdp, label="Log Real GDP",color = "black")
 for lam in lambdas:
@@ -32,6 +33,16 @@ plt.xlabel("Date")
 plt.ylabel("Log GDP")
 plt.legend()
 plt.grid(True)
-plt.show()
+plt.show(block=False)
 
+#循環成分の比較
+plt.figure(figsize=(12,6))
+for lam in lambdas:
+    plt.plot(cycles[lam],label=f"Cycle(lambda={lam})")
+plt.title("HP Filtered Cicles (Japan)")
+plt.xlabel("Date")
+plt.ylabel("Cycle")
+plt.legend()
+plt.grid(True)
+plt.show()
 
