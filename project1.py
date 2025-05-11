@@ -13,19 +13,6 @@ end_date = '2022-01-01'
 gdp = web.DataReader('JPNRGDPEXP', 'fred', start_date, end_date)
 log_gdp = np.log(gdp)
 
-# apply a Hodrick-Prescott filter to the data to extract the cyclical component
-cycle, trend = sm.tsa.filters.hpfilter(log_gdp, lamb=1600)
-
-# Plot the original time series data
-plt.plot(log_gdp, label="Original GDP (in log)")
-
-# Plot the trend component
-plt.plot(trend, label="Trend")
-
-# Add a legend and show the plot
-plt.legend()
-plt.show()
-
 
 lambdas = [10,100,1600]
 cycles = {}
@@ -48,20 +35,3 @@ plt.grid(True)
 plt.show()
 
 
-lambdas = [10, 100, 1600, 3000]
-titles = [f"λ = {lam}" for lam in lambdas]
-
-plt.figure(figsize=(14, 10))
-for i, lam in enumerate(lambdas):
-    cycle, trend = sm.tsa.filters.hpfilter(log_gdp, lamb=lam)
-    plt.subplot(2, 2, i + 1)
-    plt.plot(log_gdp, label="Original Log GDP", color='blue')
-    plt.plot(trend, label=f"HP Trend (λ={lam})", color='red', linestyle='--')
-    plt.title(titles[i])
-    plt.xlabel("Year")
-    plt.ylabel("Log GDP")
-    plt.legend()
-    plt.grid(True)
-
-plt.tight_layout()
-plt.show()
