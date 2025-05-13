@@ -41,7 +41,7 @@ for lam in lambdas:
     plt.plot(cycles[lam],label=f"Cycle(lambda={lam})")
 plt.title("HP Filtered Cicles (Japan)")
 plt.xlabel("Date")
-plt.ylabel("Cycle")
+plt.ylabel("Log GDP")
 plt.legend()
 plt.grid(True)
 plt.show()
