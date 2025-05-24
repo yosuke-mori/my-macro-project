@@ -82,13 +82,36 @@ plt.legend()
 plt.grid(True)
 plt.show(block = False)
 
+#標準偏差の計算
 germany_std_devs = {lam: np.std(cycle, ddof=1) for lam, cycle in germany_cycles.items()}
 print(germany_std_devs)
 for lam in lambdas:
     std_dev = germany_std_devs[lam]
     print(f"λ={lam}のとき、標準偏差は{std_dev}")
+
 japan_std_devs = {lam: np.std(cycle, ddof=1) for lam, cycle in japan_cycles.items()}
 print(japan_std_devs)
 for lam in lambdas:
     std_dev = japan_std_devs[lam]
     print(f"λ={lam}のとき、標準偏差は{std_dev}")
+
+#相関係数の計算
+for lam in lambdas:
+    japan_cycle = japan_cycles[lam]
+    germany_cycle = germany_cycles[lam]
+    correlation = japan_cycle.corr(germany_cycle)
+    print(f"λ={lam}のとき、相関係数は{correlation}")
+
+#循環成分の描画
+for lam in lambdas:
+    japan_cycle = japan_cycles[lam]
+    germany_cycle = germany_cycles[lam]
+    plt.figure(figsize=(12,6))
+    plt.plot(japan_cycle, label = "Japan")
+    plt.plot(germany_cycle,label = "Germany")
+    plt.title(f"HP Filtered Cyclical Component Comparison (λ={lam})")
+    plt.xlabel("Date")
+    plt.ylabel("Cyclical Component (log GDP)")
+    plt.legend()
+    plt.grid(True)
+    plt.show(block=False)
