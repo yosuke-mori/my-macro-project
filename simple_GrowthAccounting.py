@@ -15,15 +15,14 @@ data = pwt90[
     pwt90['year'].between(1960, 2000)
 ]
 
-relevant_cols = ['countrycode', 'country', 'year', 'rgdpna', 'rkna', 'pop', 'emp', 'avh', 'labsh', 'rtfpna']
+relevant_cols = ['countrycode', 'country', 'year', 'rgdpna', 'rkna', 'pop', 'emp', 'avh', 'labsh']
 data = data[relevant_cols].dropna()
 
 # Calculate additional variables
 data['alpha'] = 1 - data['labsh']
-data['y_n'] = data['rgdpna'] / (data['emp']) 
-data['cap_term'] = (data['rkna'] / (data['emp'])) ** (data['alpha'])  
-data["capital"] = data["rkna"] / data["emp"]
-data['tfp_term'] = data['rtfpna']  
+data["L_term"] = data["emp"]
+data['y_n'] = data['rgdpna'] / (data['L_term']) 
+data['k_n'] = data['rkna'] / (data['L_term'])  
 
 def calculate_growth_rates(country_data):
     
@@ -37,13 +36,11 @@ def calculate_growth_rates(country_data):
 
     g_y = ((end_data['y_n'] / start_data['y_n']) ** (1/years) - 1) * 100
 
-    g_k = ((end_data['capital'] / start_data['capital']) ** (1/years) - 1) * 100
-
-    g_a = ((end_data['tfp_term'] / start_data['tfp_term']) ** (1/years) - 1) * 100
+    g_k = ((end_data['k_n'] / start_data['k_n']) ** (1/years) - 1) * 100
 
     alpha_avg = (start_data['alpha'] + end_data['alpha']) / 2.0
     capital_deepening_contrib = alpha_avg * g_k
-    tfp_growth_calculated = g_a
+    tfp_growth_calculated = g_y - capital_deepening_contrib
     
     tfp_share = (tfp_growth_calculated / g_y)
     cap_share = (capital_deepening_contrib / g_y)
@@ -71,6 +68,6 @@ avg_row_data = {
 }
 results_df = pd.concat([results_df, pd.DataFrame([avg_row_data])], ignore_index=True)
 
-print("\nGrowth Accounting in OECD Countries: 1960-2010 period")
+print("\nGrowth Accounting in OECD Countries: 1960-2000 period")
 print("="*85)
 print(results_df.to_string(index=False))
