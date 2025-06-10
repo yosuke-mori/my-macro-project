@@ -20,7 +20,8 @@ data = data[relevant_cols].dropna()
 
 # Calculate additional variables
 data['alpha'] = 1 - data['labsh']
-data["L_term"] = data["emp"]
+#data["L_term"] = data["emp"]
+data["L_term"] = data["emp"] * data["avh"]
 data['y_n'] = data['rgdpna'] / (data['L_term']) 
 data['k_n'] = data['rkna'] / (data['L_term'])  
 
@@ -71,3 +72,34 @@ results_df = pd.concat([results_df, pd.DataFrame([avg_row_data])], ignore_index=
 print("\nGrowth Accounting in OECD Countries: 1990-2019 period")
 print("="*85)
 print(results_df.to_string(index=False))
+
+"""
+(参考)L_termをdata["emp"]にした場合
+
+Growth Accounting in OECD Countries: 1990-2019 period
+=====================================================================================
+       Country  Growth Rate  TFP Growth  Capital Deepening  TFP Share  Capital Share
+     Australia         1.28        0.72               0.56       0.56           0.44
+       Austria         0.97        0.39               0.58       0.40           0.60
+       Belgium         0.72        0.16               0.56       0.22           0.78
+        Canada         0.93        0.36               0.57       0.39           0.61
+       Denmark         1.19        0.59               0.60       0.49           0.51
+       Finland         1.44        0.82               0.62       0.57           0.43
+        France         0.93        0.31               0.62       0.34           0.66
+       Germany         1.13        0.56               0.57       0.50           0.50
+        Greece         1.00        0.02               0.98       0.02           0.98
+       Iceland         1.36        1.03               0.33       0.76           0.24
+       Ireland         2.75        1.40               1.36       0.51           0.49
+         Italy         0.48       -0.25               0.74      -0.52           1.52
+         Japan         0.84       -0.53               1.37      -0.64           1.64
+   Netherlands         0.89        0.51               0.39       0.57           0.43
+   New Zealand         0.79        0.46               0.34       0.58           0.42
+        Norway         1.24        0.63               0.61       0.51           0.49
+      Portugal         1.36        0.21               1.15       0.15           0.85
+         Spain         0.95       -0.07               1.01      -0.07           1.07
+        Sweden         1.87        1.34               0.53       0.72           0.28
+   Switzerland         0.50        0.11               0.40       0.21           0.79
+United Kingdom         1.39        0.99               0.40       0.71           0.29
+ United States         1.66        1.04               0.61       0.63           0.37
+       Average         1.17        0.49               0.68       0.35           0.65
+"""
