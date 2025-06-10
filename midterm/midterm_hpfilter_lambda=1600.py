@@ -6,7 +6,7 @@ import numpy as np
 
 # set the start and end dates for the data
 start_date = '1994-01-01'
-end_date = '2022-01-01'
+end_date = '2025-01-01'
 
 # download the data of Germany from FRED using pandas_datareader
 germany_gdp = web.DataReader('CLVMNACSCAB1GQDE', 'fred', start_date, end_date)
